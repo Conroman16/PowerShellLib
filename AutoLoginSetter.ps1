@@ -1,5 +1,13 @@
-﻿param([switch]$t)
-$version = "1.0"
+﻿# Command line paramaters
+param([switch]$t)  # Test mode switch
+
+############# GLOBAL CONFIG #################
+<##>                                     ####
+<##>  $testModeSleepTime = 1000 * 15     ####
+<##>  $scriptName = "Auto-Login Setter"  ####
+<##>  $scriptVersion = "1.0"             ####
+<##>                                     ####
+#############################################
 
 ## Self-Elevation of script (if script was not run as Administrator, start PowerShell again as Administrator and run script)
 # Get the ID and security principal of the current user account
@@ -34,12 +42,18 @@ else{  # We are not running "as Administrator" - so relaunch as administrator
 }
 
 ## Initialization
-$Host.UI.RawUI.WindowTitle = "AutoLogin Setter $version (Administrator)"
+$underline = ""
+$scriptTitle = [String]::Format("{0} v{1}", $scriptName, $scriptVersion)
+$Host.UI.RawUI.WindowTitle = "$scriptTitle (Administrator)"
 $regPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 
 ""
-"AutoLogin Setter v$version"
-"---------------------"
+""
+$scriptTitle.Remove($scriptTitle.LastIndexOf(" ")).ToUpper() + $scriptTitle.Substring($scriptTitle.LastIndexOf(" "))
+for ($i = 0; $i -lt $scriptTitle.Length; $i++){
+    $underline += "-"
+}
+$underline
 ""
 
 if ($t -eq $true){
