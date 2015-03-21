@@ -1,5 +1,5 @@
 ﻿# Command line paramaters
-param([switch]$t)
+param([switch]$t)  # Test mode switch
 
 ############# GLOBAL CONFIG ##############
 <##>                                  ####
