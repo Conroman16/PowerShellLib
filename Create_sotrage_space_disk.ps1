@@ -27,7 +27,7 @@
 "Creating $diskName..."
 
 # Create command
-$cmd = [String]::Format("New-VirtualDisk -StoragePoolFriendlyName `"SP1`" -FriendlyName `"$diskName`" -ResiliencySettingName $resiliencySetting -WriteCacheSize $writeCacheSize -ProvisioningType $provisioningType -Size $diskSize")
+$cmd = "New-VirtualDisk -StoragePoolFriendlyName `"SP1`" -FriendlyName `"$diskName`" -ResiliencySettingName $resiliencySetting -WriteCacheSize $writeCacheSize -ProvisioningType $provisioningType -Size $diskSize"
 
 # Run command to create virtual disk
 $cmdRes = iex $cmd
