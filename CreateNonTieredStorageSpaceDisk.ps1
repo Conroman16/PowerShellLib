@@ -1,8 +1,8 @@
 ﻿#############################################################################
 #############################################################################
 ####                                                                     ####
-####   Creates a new virtual disk in the 'SP1' storage pool using the    ####
-####                       specified parameters                          ####
+####   Creates a new non-tiered virtual disk in the 'SP1' storage pool   ####
+####               using the parameters specified below                  ####
 ####                                                                     ####
 #############################################################################
 ################################ Disk Info ##################################
@@ -11,7 +11,7 @@
 <##>  $diskSize = "1600gb"                                               ####
 <##>  $writeCacheSize = "16gb"                                           ####
 <##>  $resiliencySetting = "Simple"  # Simple, Mirror, or Parity         ####
-<##>  $provisioningType = "Fixed"    # Fixed, Thin, or Unknown           ####
+<##>  $provisioningType = "Thin"    # Fixed, Thin, or Unknown            ####
 ####                                                                     ####
 #############################################################################
 ############################# Partition Info ################################
