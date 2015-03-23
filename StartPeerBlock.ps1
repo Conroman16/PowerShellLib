@@ -1,13 +1,20 @@
-﻿param([switch]$t)
+﻿# Command line paramaters
+param([switch]$t)  # Test mode switch
 
-$pbExePath = "C:\Program Files\PeerBlock\peerblock.exe"
-$testModeSleepTime = 1000 * 15  # 15 seconds
+########################## GLOBAL CONFIG ##########################
+<##>                                                           ####
+<##>  $testModeSleepTime = 1000 * 15                           ####
+<##>  $scriptName = "PeerBlock Starter"                        ####
+<##>  $scriptVersion = "1.0"                                   ####
+<##>  $pbExePath = "C:\Program Files\PeerBlock\peerblock.exe"  ####
+<##>                                                           ####
+###################################################################
 
 ## Self-Elevation of script (if script was not run as Administrator, start PowerShell again as Administrator and run script)
 # Get the ID and security principal of the current user account
 $myWindowsID = [System.Security.Principal.WindowsIdentity]::GetCurrent()
 $myWindowsPrincipal = new-object System.Security.Principal.WindowsPrincipal($myWindowsID)
- 
+
 # Get the security principal for the Administrator role
 $adminRole = [System.Security.Principal.WindowsBuiltInRole]::Administrator
  
@@ -36,7 +43,17 @@ else{  # We are not running "as Administrator" - so relaunch as administrator
 }
 
 ## Initialization
-$Host.UI.RawUI.WindowTitle = "PeerBlock Starter (Administrator)"
+$underline = ""
+$scriptTitle = [String]::Format("{0} v{1}", $scriptName, $scriptVersion)
+$Host.UI.RawUI.WindowTitle = "$scriptTitle (Administrator)"
+""
+""
+$scriptTitle.Remove($scriptTitle.LastIndexOf(" ")).ToUpper() + $scriptTitle.Substring($scriptTitle.LastIndexOf(" "))
+for ($i = 0; $i -lt $scriptTitle.Length; $i++){
+    $underline += "-"
+}
+$underline
+""
 
 ## Test Mode
 if ($t -eq $true){
@@ -50,7 +67,7 @@ if ($t -eq $true){
 $pbStartInfo = new-object System.Diagnostics.ProcessStartInfo "$pbExePath"
 $pbStartInfo.WindowStyle = [System.Diagnostics.ProcessWindowStyle]::Minimized
 
-# Start
+# Start process
 $pb = [System.Diagnostics.Process]::Start($pbStartInfo)
 
 ## If in test mode, kill new process
