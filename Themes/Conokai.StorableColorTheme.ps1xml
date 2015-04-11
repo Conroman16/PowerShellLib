@@ -328,12 +328,12 @@
     </Color>
     <Color>
       <A>255</A>
-      <R>174</R>
-      <G>197</G>
+      <R>255</R>
+      <G>0</G>
       <B>255</B>
       <ScA>1</ScA>
-      <ScR>0.4232677</ScR>
-      <ScG>0.55834043</ScG>
+      <ScR>1</ScR>
+      <ScG>0</ScG>
       <ScB>1</ScB>
     </Color>
     <Color>
