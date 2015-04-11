@@ -1,6 +1,6 @@
-##########################
-#PowerhellColorThemes.zip
-##########################
+#####################
+#PowerhellColorThemes
+#####################
 
 Creator:  Jeff Pollock
 Website:  LifeinPowerShell.blogspot.com
@@ -10,12 +10,11 @@ Description:
 A collection of PowerShell ISE color themes.
 
 Instructions:
-1. Extract the zipped files.
-2. Open the PowerShell ISE.
-3. Select Tools > Options.
-4. Select Manage Themes.
-5. Select Import and choose the theme you wish to import.
-6. Now choose the theme in the list and apply it.
+1. Open the PowerShell ISE.
+2. Select Tools > Options.
+3. Select Manage Themes.
+4. Select Import and choose the theme you wish to import.
+5. Now choose the theme in the list and apply it.
 
 Theme Sources:
 Blackboard - http://mohundro.com/blog/2008/12/31/powershell-ise-themes/
