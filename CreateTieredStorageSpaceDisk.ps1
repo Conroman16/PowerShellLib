@@ -6,12 +6,14 @@
 ####                                                                     ####
 #############################################################################
 ################################ Disk Info ##################################
+####           Configuration info for 'New-VirtualDisk' cmdlet           ####
+####      https://technet.microsoft.com/en-us/library/hh848643.aspx      ####
 ####                                                                     ####
-<##>  $storagePool = "Pool1"         # Pool in which to create disk      ####
-<##>  $diskName = "Test1"            # Name of new disk                  ####
-<##>  $HDD_tierSize = "123gb"        # Size of HDD storage tier          ####
-<##>  $SSD_tierSize = "45gb"         # Size of SSD storage tier          ####
-<##>  $writeCacheSize = "67gb"       # Size of writeback cache           ####
+<##>  $storagePool = "Pool9"         # Pool in which to create disk      ####
+<##>  $diskName = "Test8"            # Name of new disk                  ####
+<##>  $HDD_tierSize = "765gb"        # Size of HDD storage tier          ####
+<##>  $SSD_tierSize = "43gb"         # Size of SSD storage tier          ####
+<##>  $writeCacheSize = "21gb"       # Size of writeback cache           ####
 <##>  $resiliencySetting = "Simple"  # Simple, Mirror, or Parity         ####
 ####                                                                     ####
 #############################################################################
@@ -25,7 +27,7 @@
 ########################### Deduplication Info ##############################
 ####                                                                     ####
 <##>  $enableDeduplication = $true   # $true or $false                   ####
-<##>  $minimumFileAge = 1            # Days                              ####
+<##>  $minimumFileAge = 1            # Age in days before dedup occurs   ####
 ####                                                                     ####
 #############################################################################
 #############################################################################
@@ -39,6 +41,7 @@ $hdds = Get-StorageTier -FriendlyName Microsoft_HDD_Template
 
 ##
 ## TODO: Figure out why this is breaking
+##       - If you print out the command, copy it and run it manually, it works just fine - wtf??
 ##
 # Create virtual disk
 $cmd = "New-VirtualDisk -StoragePoolFriendlyName `"$storagePool`" -FriendlyName `"$diskName`" -StorageTiers $ssds,$hdds -StorageTierSizes $SSD_tierSize,$HDD_tierSize -ResiliencySettingName $resiliencySetting -WriteCacheSize $writeCacheSize"
@@ -50,10 +53,9 @@ $cmdRes = iex $cmd
 ""
 "Formatting new disk..."
 
-# Wait for new disk to mount after creation
-# This might need to be adjusted if the machine has a slow storage interface
-# There might be a better way to do this than to just wait half a second
-[System.Threading.Thread]::Sleep(500)
+# Stop ShellHWDetection service so we don't get the UI popup about formatting
+# the disk before it can be used
+Stop-Service -Name ShellHWDetection
 
 # Get newly created disk
 $newDisk = Get-Disk | Where PartitionStyle -eq RAW | Where Size -eq $cmdRes.Size
@@ -62,6 +64,21 @@ $newDisk = Get-Disk | Where PartitionStyle -eq RAW | Where Size -eq $cmdRes.Size
 $newVolume = $newDisk | Initialize-Disk -PartitionStyle $partitionStyle -PassThru | 
 New-Partition -AssignDriveLetter -UseMaximumSize | 
 Format-Volume -FileSystem $fileSystem -NewFileSystemLabel $partitionName -Confirm:$false
+
+"Format completed successfully!"
+
+# Start the ShellHWDetection service again
+Start-Service -Name ShellHWDetection
+
+# Enable data deduplication if desired (NTFS only)
+if ($enableDeduplication -eq $true -and $newVolume.FileSystem.ToLower() -eq "ntfs"){
+    ""
+    "Enabling Data Deduplication..."
+    $dl = [String]::Format("{0}:", $newVolume.DriveLetter)
+    $r = Enable-DedupVolume $dl
+    Set-DedupVolume $dl -MinimumFileAgeDays $minimumFileAge
+    "Data Deduplication enabled successfully!"
+}
 
 # Get user-friendly size
 $labels = @("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")

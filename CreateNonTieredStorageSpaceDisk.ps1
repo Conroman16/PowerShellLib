@@ -6,6 +6,8 @@
 ####                                                                     ####
 #############################################################################
 ################################ Disk Info ##################################
+####           Configuration info for 'New-VirtualDisk' cmdlet           ####
+####      https://technet.microsoft.com/en-us/library/hh848643.aspx      ####
 ####                                                                     ####
 <##>  $storagePool = "Pool1"         # Pool in which to create disk      ####
 <##>  $diskName = "Disk1"            # Name of new disk                  ####
@@ -25,7 +27,7 @@
 ########################### Deduplication Info ##############################
 ####                                                                     ####
 <##>  $enableDeduplication = $true   # $true or $false                   ####
-<##>  $minimumFileAge = 1            # Days                              ####
+<##>  $minimumFileAge = 1            # Age in days before dedup occurs   ####
 ####                                                                     ####
 #############################################################################
 #############################################################################
@@ -43,10 +45,9 @@ $cmdRes = iex $cmd
 ""
 "Formatting new disk..."
 
-# Wait for new disk to mount after creation
-# This might need to be adjusted if the machine has a slow storage interface
-# There might be a better way to do this than to just wait half a second
-[System.Threading.Thread]::Sleep(500)
+# Stop ShellHWDetection service so we don't get the UI popup about formatting
+# the disk before it can be used
+Stop-Service -Name ShellHWDetection
 
 # Get newly created disk
 $newDisk = Get-Disk | Where PartitionStyle -eq RAW | Where Size -eq $cmdRes.Size
@@ -58,8 +59,11 @@ Format-Volume -FileSystem $fileSystem -NewFileSystemLabel $partitionName -Confir
 
 "Format completed successfully!"
 
-# Enable data deduplication (NTFS only)
-if ($newVolume.FileSystem.ToLower() -eq "ntfs"){
+# Start the ShellHWDetection service again
+Start-Service -Name ShellHWDetection
+
+# Enable data deduplication if desired (NTFS only)
+if ($enableDeduplication -eq $true -and $newVolume.FileSystem.ToLower() -eq "ntfs"){
     ""
     "Enabling Data Deduplication..."
     $dl = [String]::Format("{0}:", $newVolume.DriveLetter)
