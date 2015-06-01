@@ -1,13 +1,9 @@
-﻿# Command line paramaters
-param([switch]$t)  # Test mode switch
-
-############# GLOBAL CONFIG ##############
-<##>                                  ####
-<##>  $testModeSleepTime = 1000 * 15  ####
-<##>  $scriptName = ""                ####
-<##>  $scriptVersion = "1.0"          ####
-<##>                                  ####
-##########################################
+########################## GLOBAL CONFIG ##########################
+<##>                                                           ####
+<##>  $scriptName = "DevPortable Environment Variable Setter"  ####
+<##>  $scriptVersion = "1.0"                                   ####
+<##>                                                           ####
+###################################################################
 
 ## Self-Elevation of script (if script was not run as Administrator, start PowerShell again as Administrator and run script)
 # Get the ID and security principal of the current user account
@@ -27,9 +23,6 @@ else{  # We are not running "as Administrator" - so relaunch as administrator
    
     # Specify the current script path and name as a parameter
     $newProcess.Arguments = $myInvocation.MyCommand.Definition;
-    if ($t -eq $true){
-        $newProcess.Arguments += " -t";
-    }
    
     # Indicate that the process should be elevated
     $newProcess.Verb = "runas";
@@ -54,31 +47,34 @@ for ($i = 0; $i -lt $scriptTitle.Length; $i++){
 $underline
 ""
 
-# Test mode
-if ($t -eq $true){
-    "---------"
-    "TEST MODE"
-    "---------"
-    ""
-}
-
 ## START MAIN LOGIC
 ## ----------------
 
-########################################
-## MAIN CODE TO BE EXECUTED GOES HERE ##
-########################################
+# Set at global level
+$variableTarget = [System.EnvironmentVariableTarget]::Machine
+
+"Set variable at:"
+"[0] User Level"
+"[1] Machine Level"
+$res = Read-Host ""
+while($true){
+    if ($res -eq 0){
+        $variableTarget = [System.EnvironmentVariableTarget]::User
+        break
+    }
+    elseif ($res -eq 1){
+        break
+    }
+}
+
+# Get environment variable name
+$variableName = Read-Host "Environment variable name"
+
+# Get path from user
+$variableValue = Read-Host "Path to DevPortable"
+
+# Set environment variable
+[System.Environment]::SetEnvironmentVariable($variableName, $variableValue, $variableTarget)
 
 ## --------------
 ## END MAIN LOGIC
-
-## Code to be executed in test mode
-if ($t -eq $true){
-    
-    # Sleep for the specified amount fo time before running test mode code
-    [System.Threading.Thread]::Sleep($testModeSleepTime)
-
-    ################################################
-    ## CODE TO BE EXECUTED IN TEST MODE GOES HERE ##
-    ################################################
-}

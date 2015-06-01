@@ -11,12 +11,12 @@ $name = $name.Chars(0).ToString().ToUpper() + $name.Substring(1)
 
 # Set drive mappings
 $mappings = @{
-    "U" = "`"\\PLEX\Plex`"";
-    "V" = "`"\\TESLA\Backup`"";
-    "W" = "`"\\TESLA\$name$`"";
-    "X" = "`"\\TESLA\TWN Storage`"";
-    "Y" = "`"\\TBOX\Torrents`"";
-    "Z" = "`"\\TBOX\TorrentDrop`"";
+    "U" = "`"\\SERVER\share`"";
+    "V" = "`"\\SERVER\share`"";
+    "W" = "`"\\SERVER\share`"";
+    "X" = "`"\\SERVER\share`"";
+    "Y" = "`"\\SERVER\share`"";
+    "Z" = "`"\\SERVER\share`"";
 };
 $mappings = $mappings.GetEnumerator() | Sort-Object Name
 
