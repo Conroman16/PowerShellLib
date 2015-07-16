@@ -1,13 +1,18 @@
 ﻿# Command line paramaters
 param([switch]$t)  # Test mode switch
 
-############# GLOBAL CONFIG ##############
-<##>                                  ####
-<##>  $testModeSleepTime = 1000 * 15  ####
-<##>  $scriptName = ""                ####
-<##>  $scriptVersion = "1.0"          ####
-<##>                                  ####
-##########################################
+## Functions
+#######################
+## FUNCTIONS GO HERE ##
+#######################
+
+#################### GLOBAL CONFIG #####################
+<##>                                                ####
+<##>  $testModeSleepTime = 1000 * 15 #Milliseconds  ####
+<##>  $scriptName = ""                              ####
+<##>  $scriptVersion = "1.0"                        ####
+<##>                                                ####
+########################################################
 
 ## Self-Elevation of script (if script was not run as Administrator, start PowerShell again as Administrator and run script)
 # Get the ID and security principal of the current user account

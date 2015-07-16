@@ -56,7 +56,8 @@ $variableTarget = [System.EnvironmentVariableTarget]::Machine
 "Set variable at:"
 "[0] User Level"
 "[1] Machine Level"
-$res = Read-Host ""
+""
+$res = Read-Host "Option"
 while($true){
     if ($res -eq 0){
         $variableTarget = [System.EnvironmentVariableTarget]::User
@@ -71,7 +72,7 @@ while($true){
 $variableName = Read-Host "Environment variable name"
 
 # Get path from user
-$variableValue = Read-Host "Path to DevPortable"
+$variableValue = Read-Host "Environmant variable path"
 
 # Set environment variable
 [System.Environment]::SetEnvironmentVariable($variableName, $variableValue, $variableTarget)
