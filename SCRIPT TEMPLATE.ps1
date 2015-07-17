@@ -1,6 +1,11 @@
 ﻿# Command line paramaters
 param([switch]$t)  # Test mode switch
 
+# Module imports
+############################
+## MODULE IMPORTS GO HERE ##
+############################
+
 ## Functions
 #######################
 ## FUNCTIONS GO HERE ##
@@ -17,27 +22,27 @@ param([switch]$t)  # Test mode switch
 ## Self-Elevation of script (if script was not run as Administrator, start PowerShell again as Administrator and run script)
 # Get the ID and security principal of the current user account
 $myWindowsID = [System.Security.Principal.WindowsIdentity]::GetCurrent()
-$myWindowsPrincipal = new-object System.Security.Principal.WindowsPrincipal($myWindowsID)
+$myWindowsPrincipal = New-Object System.Security.Principal.WindowsPrincipal($myWindowsID)
  
 # Get the security principal for the Administrator role
 $adminRole = [System.Security.Principal.WindowsBuiltInRole]::Administrator
  
 # Check to see if we are currently running "as Administrator"
 if ($myWindowsPrincipal.IsInRole($adminRole)){  # We are running "as Administrator"
-    clear-host
+    Clear-Host
 }
 else{  # We are not running "as Administrator" - so relaunch as administrator   
     # Create a new process object that starts PowerShell
-    $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell"
+    $newProcess = New-Object System.Diagnostics.ProcessStartInfo "PowerShell"
    
     # Specify the current script path and name as a parameter
-    $newProcess.Arguments = $myInvocation.MyCommand.Definition;
+    $newProcess.Arguments = $myInvocation.MyCommand.Definition
     if ($t -eq $true){
-        $newProcess.Arguments += " -t";
+        $newProcess.Arguments += " -t"
     }
    
     # Indicate that the process should be elevated
-    $newProcess.Verb = "runas";
+    $newProcess.Verb = "runas"
    
     # Start the new process
     [System.Diagnostics.Process]::Start($newProcess)
@@ -70,9 +75,9 @@ if ($t -eq $true){
 ## START MAIN LOGIC
 ## ----------------
 
-########################################
-## MAIN CODE TO BE EXECUTED GOES HERE ##
-########################################
+#########################
+## MAIN CODE GOES HERE ##
+#########################
 
 ## --------------
 ## END MAIN LOGIC
@@ -83,7 +88,7 @@ if ($t -eq $true){
     # Sleep for the specified amount fo time before running test mode code
     [System.Threading.Thread]::Sleep($testModeSleepTime)
 
-    ################################################
-    ## CODE TO BE EXECUTED IN TEST MODE GOES HERE ##
-    ################################################
+    ##############################
+    ## TEST MODE CODE GOES HERE ##
+    ##############################
 }
