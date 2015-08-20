@@ -1,6 +1,6 @@
 # ISE Themes
 
-This is a collection of some themes for the Powershell ISE.  Most of the themes are from [Jeff Pollock](LifeinPowerShell.blogspot.com)'s [PowershellColorThemes](https://onedrive.live.com/redir?resid=DF531FE80877C24F%21306), but I've customized some as well.
+This is a collection of some themes for the Powershell ISE.  Most of the themes are from [Jeff Pollock](//LifeinPowerShell.blogspot.com)'s [PowershellColorThemes](https://onedrive.live.com/redir?resid=DF531FE80877C24F%21306), but I've customized some as well.
 
 
 **Installation Instructions:**
