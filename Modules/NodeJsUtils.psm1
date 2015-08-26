@@ -1,4 +1,4 @@
-Function StartNodeJsCmd{
+Function Start-NodeJsCmd{
 param([string]$cwd, [string]$command, [bool]$waitForExit = $false)
     $nodevarsPath = "$env:ProgramFiles\nodejs\nodevars.bat"
     $argStr = "/k `"`"$nodevarsPath`""
@@ -21,5 +21,15 @@ param([string]$cwd, [string]$command, [bool]$waitForExit = $false)
     # Wait for exit if necessary
     if ($waitForExit -eq $true){
         $proc.WaitForExit()
+    }
+}
+
+Function Ensure-NodeModules{
+param([string]$path)
+    # Check if 'node_modules' exists
+    # If it doesn't, run 'npm install' here and wait for completion
+    if ([System.IO.Directory]::Exists($path + "\node_modules") -eq $false){
+        "Unable to locate 'node_modules' in '$path'... Running 'npm install'"
+        StartNodeJsCmd $path "npm install & exit" $true
     }
 }
