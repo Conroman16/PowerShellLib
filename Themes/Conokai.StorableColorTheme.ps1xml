@@ -158,23 +158,23 @@
     </Color>
     <Color>
       <A>255</A>
-      <R>0</R>
-      <G>0</G>
-      <B>139</B>
+      <R>1</R>
+      <G>36</G>
+      <B>86</B>
       <ScA>1</ScA>
-      <ScR>0</ScR>
-      <ScG>0</ScG>
-      <ScB>0.258182883</ScB>
+      <ScR>0.000303527</ScR>
+      <ScG>0.017641956</ScG>
+      <ScB>0.0930589661</ScB>
     </Color>
     <Color>
       <A>255</A>
-      <R>0</R>
-      <G>0</G>
-      <B>139</B>
+      <R>1</R>
+      <G>36</G>
+      <B>86</B>
       <ScA>1</ScA>
-      <ScR>0</ScR>
-      <ScG>0</ScG>
-      <ScB>0.258182883</ScB>
+      <ScR>0.000303527</ScR>
+      <ScG>0.017641956</ScG>
+      <ScB>0.0930589661</ScB>
     </Color>
     <Color>
       <A>255</A>
@@ -809,5 +809,5 @@
   </Values>
   <Name>Conokai</Name>
   <FontFamily>Consolas</FontFamily>
-  <FontSize>10</FontSize>
+  <FontSize>11</FontSize>
 </StorableColorTheme>
