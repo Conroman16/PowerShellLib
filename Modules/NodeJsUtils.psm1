@@ -1,7 +1,8 @@
 Function Start-NodeJsCmd{
-param([string]$cwd, [string]$command, [bool]$waitForExit = $false)
+param([string]$command, [string]$cwd = [System.Environment]::CurrentDirectory, [bool]$waitForExit = $false)
     $nodevarsPath = "$env:ProgramFiles\nodejs\nodevars.bat"
     $argStr = "/k `"`"$nodevarsPath`""
+    $argStr
     if (![string]::IsNullOrWhiteSpace($cwd)){
         $argStr = $argStr + " & cd `"$cwd`""
     }
