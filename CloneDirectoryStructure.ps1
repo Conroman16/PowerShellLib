@@ -16,15 +16,17 @@ param([string]$message)
         }
     }
 }
-
 function CopyFiles{
-param([string]$currDir)
+param([string]$currDir, [string[]]$fileExts)
 
+    # Enumerate directories within this directory
     $dirs = [System.IO.Directory]::EnumerateDirectories($currDir)
-    $files = Get-Item "$currDir\*"
 
+    # Enumerate files within this directory and filter
+    $files = Get-Item "$currDir\*"
     $files = $files | Where-Object { $_.Extension.Replace(".", "") -in $fileExts }
 
+    # Loop through files and copy ones matching specified extensions
     foreach ($file in $files){
         $newPath = $file.FullName.Replace($rootPath, $destPath)
         $newPathDir = [System.IO.Path]::GetDirectoryName($newPath)
@@ -42,13 +44,14 @@ param([string]$currDir)
         }
     }
 
+    # Loop through dirs and recurse
     foreach ($dir in $dirs){
-        CopyFiles $dir
+        CopyFiles $dir $fileExts
     }
 }
 
-$rootPath = "G:\"                     # Root of directory structure to copy
-$destPath = "C:\"                     # Path where directory structure clone will be output
+$rootPath = "C:\Music"                # Root of directory structure to copy
+$destPath = "D:\MusicArtwork"         # Path where directory structure clone will be output
 $fileExts = @("jpg", "jpeg", "png")   # File extensions to copy into new directory structure
 
 # Kick it off
