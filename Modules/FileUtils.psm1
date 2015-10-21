@@ -1,8 +1,33 @@
-function Create-EncFile{
+function Compare-SecureStrings{
+param([securestring]$str1, [SecureString]$str2)
+    $str1_text = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($str1))
+    $str2_text = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($str2))
+ 
+    if ($str1_text -ceq $str2_text) {
+        return $true
+    }
+    else {
+        return $false
+    }
+}
+
+function New-EncFile{
     # Get password
     $password = Read-Host -AsSecureString "Enter password"
+    $password2 = Read-Host -AsSecureString "Re-enter password"
 
-    # Convert Password
+    # Compare passwords
+    $pwdsAreEqual = Compare-SecureStrings $password $password2
+
+    # Loop until passwords are equal
+    while (!$pwdsAreEqual){
+        "Passwords did not match!"
+        $password = Read-Host -AsSecureString "Enter password"
+        $password2 = Read-Host -AsSecureString "Re-enter password"
+        $pwdsAreEqual = Compare-SecureStrings $password $password2
+    }
+
+    # Convert password
     $fileContent = ConvertFrom-SecureString $password
 
     # Save file
