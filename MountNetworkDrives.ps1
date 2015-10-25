@@ -1,9 +1,9 @@
 ﻿# Get current user's User Name
-$name = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name;
+$name = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
 
 # If it's a domain name, remove the domain info
 if ($name.Contains('\')){
-    $name = $name.Substring($name.LastIndexOf('\') + 1);
+    $name = $name.Substring($name.LastIndexOf('\') + 1)
 }
 
 # Capitalize the first letter to keep things pretty
@@ -17,7 +17,7 @@ $mappings = @{
     "X" = "`"\\SERVER\share`"";
     "Y" = "`"\\SERVER\share`"";
     "Z" = "`"\\SERVER\share`"";
-};
+}
 $mappings = $mappings.GetEnumerator() | Sort-Object Name
 
 # Map drives
