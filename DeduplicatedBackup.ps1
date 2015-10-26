@@ -6,7 +6,7 @@
         send emails from, and a copy of the AWESOME deduplication and compression program "eXdupe".      ####
         You can find eXdupe at www.exdupe.com.  It comes as a single '.exe' file so it's nice and        ####
         portable.  I placed it at 'C:\Program Files\eXdupe\exdupe.exe' but you can put it wherever.      ####
-        Just make sure you update the '$exdupePath' variable to reflat where you placed it.  The         ####
+        Just make sure you update the '$exdupePath' variable to reflect where you placed it.  The        ####
         second requirement, email, is a bit more comlicated to get set up.  I use Mailgun                ####
         (mailgun.com) for all my SMTP needs.  They have a free account which allows you to send up       ####
         to 10,000 emails a month, which is plenty more than we're going to be sending here.  Get         ####
@@ -23,8 +23,8 @@
           decrypted by the Windows user who created it).  Put the path to this file in the               ####
           '$smtpCredPasswordFilePath' variable.                                                          ####
         * Put the address of your SMTP server in the '$smtpServer' variable.  If you're using            ####
-          Mailgunm this would be 'smtp.mailgun.org'.                                                     ####
-        * Put your SMTP username in the '$smtpCredUserName' variable.  I used the credential that I      ####
+          Mailgun this would be 'smtp.mailgun.org'.                                                      ####
+        * Put your SMTP username in the '$smtpCredUserName' variable.  I used the credentials that I     ####
           set up in my Mailgun control panel ('<MY_PC_NAME>@sandbox127.mailgun.org').                    ####
         * Put the email address at which you want to receieve notifications from this script in the      ####
           '$emailRecipientAddress' variable.                                                             ####
