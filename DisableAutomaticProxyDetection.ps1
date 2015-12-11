@@ -4,15 +4,14 @@
     # Disables the "Automatic Proxy Detection" setting which has a
     durastic impact on the performance of the WebDAV protocol.  The setting
     is burried in Internet Explorer, so this script eliminates the trouble of
-    locating it.
+    locating it and setting it correctly.
 
     # Issue description:
       - https://support.microsoft.com/en-us/kb/2445570
 
     # This script sets the value of the 9th byte in the 'DefaultConnectionSettings' registry 
-    key data, which is is the value of the top two checkboxes located at the top of the menu 
-    found in Internet Explorer under Tools > Internet Options > Connections (tab) > LAN Settings
-    (marked with [] in data below)
+    key binary data.  This key contains the data for the 'LAN Settings' dialog.  This dialog 
+    is found in Internet Explorer under Tools > Internet Options > Connections (tab) > LAN Settings
 
     # Example of key data:
       46 00 00 00 07 00 00 00
@@ -24,7 +23,7 @@
       00 00 00 00 00 00 00 00
 
       # Explanation of key data:
-      1. Byte 0 is always either 0x3C (60) or 0x46 (70).  Not much documentation about this.
+      1. Byte 0 is always either 0x3C (60) or 0x46 (70).  (?? - Not much documentation about this).
       2. Bytes 1 - 3 are all 0x0 (0).
       3. Byte 4 is a counter that increments each settings are modified from the LAN Settings dialog.
          Seems useless but must have a value.
