@@ -1,9 +1,5 @@
-﻿# Command line paramaters
-param([switch]$t)
-
-############# GLOBAL CONFIG ########################
+﻿############# GLOBAL CONFIG ########################
 <##>                                            ####
-<##>  $testModeSleepTime = 1000 * 15            ####
 <##>  $scriptName = "Storage Tier File Pinner"  ####
 <##>  $scriptVersion = "2.0"                    ####
 <##>                                            ####
@@ -26,13 +22,13 @@ else{  # We are not running "as Administrator" - so relaunch as administrator
     $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell"
    
     # Specify the current script path and name as a parameter
-    $newProcess.Arguments = $myInvocation.MyCommand.Definition;
+    $newProcess.Arguments = $myInvocation.MyCommand.Definition
     if ($t -eq $true){
-        $newProcess.Arguments += " -t";
+        $newProcess.Arguments += " -t"
     }
    
     # Indicate that the process should be elevated
-    $newProcess.Verb = "runas";
+    $newProcess.Verb = "runas"
    
     # Start the new process
     [System.Diagnostics.Process]::Start($newProcess)
@@ -53,14 +49,6 @@ for ($i = 0; $i -lt $scriptTitle.Length; $i++){
 }
 $underline
 ""
-
-# Test mode
-if ($t -eq $true){
-    "---------"
-    "TEST MODE"
-    "---------"
-    ""
-}
 
 
 # Get file to pin
@@ -87,15 +75,3 @@ $tier = Get-StorageTier -FriendlyName $storageTiers[$tn].FriendlyName
 
 # Set File Storage Tier to SSD
 Set-FileStorageTier -DesiredStorageTier $tier -FilePath $filePath
-
-
-## Code to be executed in test mode
-if ($t -eq $true){
-    
-    # Sleep for the specified amount fo time before running test mode code
-    [System.Threading.Thread]::Sleep($testModeSleepTime)
-
-    ################################################
-    ## CODE TO BE EXECUTED IN TEST MODE GOES HERE ##
-    ################################################
-}
