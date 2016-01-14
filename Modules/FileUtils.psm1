@@ -1,3 +1,41 @@
+function Get-PasswordFromEncFile{
+param([string]$encFilePath)
+    $fileContent = Get-Content -Path $encFilePath
+    if ($fileContent.GetType().Name.ToLower() -eq "object[]"){
+        $fileContent = [System.Text.Encoding]::UTF8.GetString($fileContent).Trim()
+    }
+    $secStr = ConvertTo-SecureString $fileContent
+    $nc = New-Object System.Net.NetworkCredential
+    $nc.SecurePassword = $secStr
+    return $nc.Password
+}
+
+function New-EncFile{
+    # Get password
+    $password = Read-Host -AsSecureString "Enter password"
+    $password2 = Read-Host -AsSecureString "Re-enter password"
+
+    # Compare passwords
+    $pwdsAreEqual = Compare-SecureStrings $password $password2
+
+    # Loop until passwords are equal
+    while (!$pwdsAreEqual){
+        "Passwords did not match!"
+        $password = Read-Host -AsSecureString "Enter password"
+        $password2 = Read-Host -AsSecureString "Re-enter password"
+        $pwdsAreEqual = Compare-SecureStrings $password $password2
+    }
+
+    # Convert password
+    $fileBytes = [System.Text.Encoding]::UTF8.GetBytes((ConvertFrom-SecureString $password))
+
+    # Save file
+    $filePath = Set-SaveLocation ([System.IO.Path]::Combine($env:USERPROFILE, "pw")) "enc" "Encoded files" "Hidden, Archive, NotContentIndexed"
+    Set-Content -Path $filePath -Value $fileBytes -Encoding Unknown
+    $fileInfo = New-Object System.IO.FileInfo $filePath
+    $fileInfo.Attributes = "Archive, ReadOnly, Hidden, NotContentIndexed"
+}
+
 function Compare-SecureStrings{
 param([securestring]$str1, [SecureString]$str2)
     $str1_text = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($str1))
@@ -47,39 +85,4 @@ param([string]$initialDirectory, [string]$fileExtFilter, [string]$filterDescript
     else{
         return $initialDirectory
     }
-}
-
-function New-EncFile{
-    # Get password
-    $password = Read-Host -AsSecureString "Enter password"
-    $password2 = Read-Host -AsSecureString "Re-enter password"
-
-    # Compare passwords
-    $pwdsAreEqual = Compare-SecureStrings $password $password2
-
-    # Loop until passwords are equal
-    while (!$pwdsAreEqual){
-        "Passwords did not match!"
-        $password = Read-Host -AsSecureString "Enter password"
-        $password2 = Read-Host -AsSecureString "Re-enter password"
-        $pwdsAreEqual = Compare-SecureStrings $password $password2
-    }
-
-    # Convert password
-    $fileContent = ConvertFrom-SecureString $password
-
-    # Save file
-    $filePath = Set-SaveLocation ([System.IO.Path]::Combine($env:USERPROFILE, "pw")) "enc" "Encoded files" "Hidden, Archive, NotContentIndexed"
-    [System.IO.File]::WriteAllText($filePath, $fileContent)
-    $fileInfo = New-Object System.IO.FileInfo $filePath 
-    $fileInfo.Attributes = "Archive, ReadOnly, Hidden, NotContentIndexed"
-}
-
-function Get-PasswordFromEncFile{
-param([string]$encFilePath)
-    $fileContents = [System.IO.File]::ReadAllText($encFilePath).Trim()
-    $secStr = ConvertTo-SecureString $fileContents
-    $nc = New-Object System.Net.NetworkCredential
-    $nc.SecurePassword = $secStr
-    return $nc.Password
 }
