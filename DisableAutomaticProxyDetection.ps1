@@ -74,6 +74,17 @@ $key[$byteArrIndex] = $settingValue
 # Set key value
 Set-ItemProperty -Path $keyPath -Name $keyName -Value $key
 
+$property = Get-ItemProperty -Path $keyPath
+$key = $property.$keyName
+
+""
+if ($key[$byteArrIndex] -eq $settingValue){
+    "System configured successfully"
+}
+else{
+    "Error configuring system"
+}
+
 <#
     # Since we're messing with the registry here, it's always good to have a backup.
     This is the value from my (Connor's) machine.  This key is contains all the data
