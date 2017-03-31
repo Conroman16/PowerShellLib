@@ -11,7 +11,7 @@
 # DELUGUE CONFIGURATION
 ## Deluge cannot pass arguments in the execute function, so a little CMD script is needed to kick off this script
 # > powershell -File C:\Scripts\FilebotRunner_Deluge.ps1 %*
-## Then put give the path to the cmd script to Deluge
+## Then give the path to the cmd script to Deluge
 # > C:\Scripts\filebot_runner.cmd
 
 # Arguments
@@ -39,12 +39,12 @@ $ut_kind = "multi"
         pushbullet=pushbullet_api_key
         clean=y 
         "extractFolder=C:/filebottmp" 
-        "ut_label=%L" 
-        "ut_state=%S" 
-        "ut_title=%N" 
-        "ut_kind=%K" 
-        "ut_file=%F" 
-        "ut_dir=%D" 
+        "ut_label=$ut_label" 
+        "ut_state=$ut_state" 
+        "ut_title=$ut_title" 
+        "ut_kind=$_ut_kind" 
+        "ut_file=$ut_file" 
+        "ut_dir=$ut_dir" 
         plex=plex.server.address:plex_token
         "seriesFormat=Y:/TV Shows/{n}/Season {s}/{n} - {s00e00} - {t} - {vf} {ac}-{af}" 
         "movieFormat=Y:/Movies/{n} ({y}) {vf}/{n} ({y}) {vf} {ac}-{af}" 
