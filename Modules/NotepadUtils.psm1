@@ -9,7 +9,7 @@ $cSharpSignature = @"
     [DllImport("User32.dll", EntryPoint = "SendMessage")]
     private static extern int SendMessage(IntPtr hWnd, int uMsg, int wParam, string lParam);
 
-    public static void OpenWithText(string message = null, string title = null)
+    public static void Open(string text = null, string title = null)
     {
         Process notepad = Process.Start(new ProcessStartInfo("notepad.exe"));
         if (notepad != null)
@@ -19,10 +19,10 @@ $cSharpSignature = @"
             if (!string.IsNullOrEmpty(title))
                 SetWindowText(notepad.MainWindowHandle, title);
 
-            if (!string.IsNullOrEmpty(message))
+            if (!string.IsNullOrEmpty(text))
             {
                 IntPtr child = FindWindowEx(notepad.MainWindowHandle, new IntPtr(0), "Edit", null);
-                SendMessage(child, 0x000C, 0, message);
+                SendMessage(child, 0x000C, 0, text);
             }
         }
     }
