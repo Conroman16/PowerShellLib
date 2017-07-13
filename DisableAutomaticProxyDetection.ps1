@@ -25,7 +25,7 @@
       # Explanation of key data:
       1. Byte 0 is always either 0x3C (60) or 0x46 (70).  (?? - Not much documentation about this).
       2. Bytes 1 - 3 are all 0x0 (0).
-      3. Byte 4 is a counter that increments each settings are modified from the LAN Settings dialog.
+      3. Byte 4 is a counter that increments each time settings are modified from the LAN Settings dialog.
          Seems useless but must have a value.
       4. Bytes 5 - 7 are all 0x0 (0).
       5. Byte 8 is different depending on your settings:
